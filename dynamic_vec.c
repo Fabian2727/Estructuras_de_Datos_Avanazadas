@@ -3,7 +3,7 @@
 
 //3.1.2
 int *pvect = NULL;
-int ncount = 0;
+int count = 0;
 int maximo = 0;
 
 void Resize()
@@ -13,25 +13,25 @@ void Resize()
   maximo += tam;
 }
 
-void d_insert(int elem)
+void insert(int elem)
 {
-  if( ncount == maximo )
+  if( count == maximo )
   {
     Resize();
   }
-  pvect[ncount++] = elem;
+  pvect[count++] = elem;
 }
 
 void print ()
 {
-  for (int i = 0; i<ncount; i++)
+  for (int i = 0; i<count; i++)
     {
       printf( "%d ", pvect[i]);
     }
 }
 
 int main(void) {
-  d_insert(12);
-  d_insert(5);
+  insert(12);
+  insert(5);
   print();
 }
