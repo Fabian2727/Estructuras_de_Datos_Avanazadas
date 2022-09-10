@@ -5,50 +5,91 @@
 #include <vector>
 using namespace std;
 
-long long pot (int a, int b)
-{
-  if (b == 0) return 1;
-    int x = pot(a, b/2);
-    if (b % 2 == 0) return x*x;
-    return x*x*a;
-}
-
-long long dist (int x1,int y1,int z1,int x,int y,int z)
-{
-  long long dis = sqrt(pot(x-x1,2) + pot(y-y1,2) + pot(z-z1,2));
-  return dis;
-}
-
 int main() {
-  const long long n = 10;
+  const long long n1 = 1000;
+  const long long n2 = 10000;
+  const long long n3 = 50000;
 
-  auto start = std::chrono::system_clock::now();
+  auto start1 = std::chrono::system_clock::now();
 
-  long long mat [n][n] = {0};
+  long long mat1 [n1][3] = {0};
   
-  for (int i = 0; i< n; i++)
+  for (int i = 0; i< n1; i++)
   {
     for (int j = 0; j<3; j++)
     {
-      mat[i][j] = rand()%500;
+      mat1[i][j] = rand()%500;
     }
   }
   
-  for (int i = 1; i< n; i++)
+  for (int i = 1; i< n1; i++)
   {
     long long aux = 0;
     for (int j = 0; j<3; j++)
     {
-      aux += pow(mat[i][j]-mat[0][j],2);
+      aux += pow(mat1[i][j]-mat1[0][j],2);
     }
     aux = sqrt(aux);
   }
-  
 
-  auto end = std::chrono::system_clock::now();
+  auto end1 = std::chrono::system_clock::now();
+  std::chrono::duration<float,std::milli> duration1 = end1 - start1;
+  cout << "1000: " << duration1.count() << " sec. " << endl;
+
+  // 10 000
+
+  auto start2 = std::chrono::system_clock::now();
+
+  long long mat2 [n2][3] = {0};
   
-  std::chrono::duration<float,std::milli> duration = end - start;
+  for (int i = 0; i< n2; i++)
+  {
+    for (int j = 0; j<3; j++)
+    {
+      mat2[i][j] = rand()%500;
+    }
+  }
   
-  cout << duration.count() << "s " << endl;
+  for (int i = 1; i< n2; i++)
+  {
+    long long aux = 0;
+    for (int j = 0; j<3; j++)
+    {
+      aux += pow(mat2[i][j]-mat2[0][j],2);
+    }
+    aux = sqrt(aux);
+  }
+
+  auto end2 = std::chrono::system_clock::now();
+  std::chrono::duration<float,std::milli> duration2 = end2 - start2;
+  cout << "10 000: " << duration2.count() << " sec. " << endl;
+  
+  // 50 000
+
+  auto start3 = std::chrono::system_clock::now();
+
+  long long mat3 [n3][3] = {0};
+  
+  for (int i = 0; i< n3; i++)
+  {
+    for (int j = 0; j<3; j++)
+    {
+      mat3[i][j] = rand()%500;
+    }
+  }
+  
+  for (int i = 1; i< n3; i++)
+  {
+    long long aux = 0;
+    for (int j = 0; j<3; j++)
+    {
+      aux += pow(mat3[i][j]-mat3[0][j],2);
+    }
+    aux = sqrt(aux);
+  }
+
+  auto end3 = std::chrono::system_clock::now();
+  std::chrono::duration<float,std::milli> duration3 = end3 - start3;
+  cout << "50 000: " << duration3.count() << " sec. " << endl;
   
 }
