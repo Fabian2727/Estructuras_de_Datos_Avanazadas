@@ -13,45 +13,45 @@ class PQ
 {
 public:
 
-    void push(int a)
-    {
-    	pq.insert_element(a);
+	void push(int a)
+    	{
+    		pq.insert_element(a);
 	}
 	void insert(int n)
-    {
-        srand(time(NULL));
+    	{
+        	srand(time(NULL));
 		for (int i = 0; i<n; i++)
-        {
-        	int aux = rand()%(2*n)+1;
+        	{
+        		int aux = rand()%(2*n)+1;
 			pq.insert_element(aux);
 		}
-    }
-    void thr(int n) 
+    	}
+    	void thr(int n) 
 	{
-    	int t = 4;
-        vector<thread> threads(t);
-        for (int i = 0; i < t; i++) 
+		int t = 4;
+		vector<thread> threads(t);
+		for (int i = 0; i < t; i++) 
 		{
 			threads[i] = thread(&PQ::insert, this, n);
-        }
-        for (int i = 0; i < t; i++) 
+        	}
+        	for (int i = 0; i < t; i++) 
 		{
-            threads[i].join();
-        }
-    }
-    void pop()
-    {
-        pq.pop_element();
-    }
-    int top()
-    {
-    	return pq.top_element();
-    }
-    void print() 
+            		threads[i].join();
+        	}
+    	}
+    	void pop()
+    	{
+        	pq.pop_element();
+    	}
+    	int top()
+    	{
+    		return pq.top_element();
+    	}
+    	void print() 
 	{
-        pq.display();
-    }
+        	pq.display();
+    	}
 private:
-    skiplist pq;
+	skiplist pq;
 };
 #endif
