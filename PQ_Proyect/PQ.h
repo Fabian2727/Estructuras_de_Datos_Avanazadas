@@ -12,11 +12,12 @@ using namespace std;
 class PQ
 {
 public:
-    void operator()(int num) 
-	{
-        pq.insert_element(num);
-    }
-    void insert(int n)
+
+    void push(int a)
+    {
+    	pq.insert_element(a);
+	}
+	void insert(int n)
     {
         srand(time(NULL));
 		for (int i = 0; i<n; i++)
