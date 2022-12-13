@@ -9,30 +9,30 @@
 const float P = 0.5;
 using namespace std;
 
-struct snode
+struct node
 {
     int value;
-    snode** forw;
-    snode(int level, int& value)
+    node** next;
+    node(int level, int& value)
     {
-        forw = new snode * [level + 1];
-        memset(forw, 0, sizeof(snode*) * (level + 1));
+        next = new node * [level + 1];
+        memset(next, 0, sizeof(node*) * (level + 1));
         this->value = value;
     }
-    ~snode()
+    ~node()
     {
-        delete[] forw;
+        delete[] next;
     }
 };
 
 struct skiplist
 {
-    snode* header;
+    node* header;
     int value;
     int level;
     skiplist()
     {
-        header = new snode(MAX_LEVEL, value);
+        header = new node(MAX_LEVEL, value);
         level = 0;
     }
     ~skiplist()
@@ -66,18 +66,18 @@ int random_level()
 
 void skiplist::insert_element(int& value)
 {
-    snode* x = header;
-    snode* update[MAX_LEVEL + 1];
-    memset(update, 0, sizeof(snode*) * (MAX_LEVEL + 1));
+    node* x = header;
+    node* update[MAX_LEVEL + 1];
+    memset(update, 0, sizeof(node*) * (MAX_LEVEL + 1));
     for (int i = level; i >= 0; i--)
     {
-        while (x->forw[i] != NULL && x->forw[i]->value < value)
+        while (x->next[i] != NULL && x->next[i]->value < value)
         {
-            x = x->forw[i];
+            x = x->next[i];
         }
         update[i] = x;
     }
-    x = x->forw[0];
+    x = x->next[0];
     if (x == NULL || x->value != value)
     {
         int lvl = random_level();
@@ -89,39 +89,39 @@ void skiplist::insert_element(int& value)
             }
             level = lvl;
         }
-        x = new snode(lvl, value);
+        x = new node(lvl, value);
         for (int i = 0; i <= lvl; i++)
         {
-            x->forw[i] = update[i]->forw[i];
-            update[i]->forw[i] = x;
+            x->next[i] = update[i]->next[i];
+            update[i]->next[i] = x;
         }
     }
 }
 
 void skiplist::delete_element(int& value)
 {
-    snode* x = header;
-    snode* update[MAX_LEVEL + 1];
-    memset(update, 0, sizeof(snode*) * (MAX_LEVEL + 1));
+    node* x = header;
+    node* update[MAX_LEVEL + 1];
+    memset(update, 0, sizeof(node*) * (MAX_LEVEL + 1));
     for (int i = level; i >= 0; i--)
     {
-        while (x->forw[i] != NULL && x->forw[i]->value < value)
+        while (x->next[i] != NULL && x->next[i]->value < value)
         {
-            x = x->forw[i];
+            x = x->next[i];
         }
         update[i] = x;
     }
-    x = x->forw[0];
+    x = x->next[0];
     if (x->value == value)
     {
         for (int i = 0; i <= level; i++)
         {
-            if (update[i]->forw[i] != x)
+            if (update[i]->next[i] != x)
                 break;
-            update[i]->forw[i] = x->forw[i];
+            update[i]->next[i] = x->next[i];
         }
         delete x;
-        while (level > 0 && header->forw[level] == NULL)
+        while (level > 0 && header->next[level] == NULL)
         {
             level--;
         }
@@ -129,24 +129,24 @@ void skiplist::delete_element(int& value)
 }
 
 void skiplist::pop_element() {
-    snode* x = header;
-    x = x->forw[0];
+    node* x = header;
+    x = x->next[0];
     delete_element(x->value);
 }
 
 int skiplist::top_element() {
-    snode* x = header;
-    x = x->forw[0];
+    node* x = header;
+    x = x->next[0];
     return x->value;
 }
 
 void skiplist::display()
 {
-    const snode* x = header->forw[0];
+    const node* x = header->next[0];
     while (x != NULL)
     {
         cout << x->value;
-        x = x->forw[0];
+        x = x->next[0];
         if (x != NULL)
             cout << "\t-\t";
     }
@@ -155,15 +155,15 @@ void skiplist::display()
 
 bool skiplist::contains(int& s_value)
 {
-    snode* x = header;
+    node* x = header;
     for (int i = level; i >= 0; i--)
     {
-        while (x->forw[i] != NULL && x->forw[i]->value < s_value)
+        while (x->next[i] != NULL && x->next[i]->value < s_value)
         {
-            x = x->forw[i];
+            x = x->next[i];
         }
     }
-    x = x->forw[0];
+    x = x->next[0];
     return x != NULL && x->value == s_value;
 }
 
